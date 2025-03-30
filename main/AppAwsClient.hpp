@@ -38,7 +38,7 @@ namespace app
         std::string m_aws_endpoint{"a21os9k1lkh5wn-ats.iot.eu-central-1.amazonaws.com"};
         std::string m_thing_name{"my_temp_sensor"};
         std::string m_user_name{"any_user_name"};
-        std::string m_topic_name{"my_temp_sensor/reading"};
+        std::string m_topic_name{"$aws/things/my_temperature_sensor/shadow/update"};
         uint8_t m_local_buffer[1024];
 
         NetworkContext_t m_network_context;
@@ -145,7 +145,7 @@ namespace app
 
             ESP_LOGI("AppAwsClient", "Publishing temperature: %lu", temp_level);
             std::stringstream ss_mqtt_message;
-            ss_mqtt_message << "{\"temp_level\":" << temp_level << "}";
+            ss_mqtt_message << "{\"state\":{\"reported\":{\"temperature\":" << temp_level << "}}}";
 
             std::string payload = ss_mqtt_message.str();
             m_publish_info.pPayload = payload.c_str();
